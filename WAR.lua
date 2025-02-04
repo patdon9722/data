@@ -252,6 +252,10 @@ function user_setup()
 	gearswap_jobbox:show()
 end
 
+windower.register_event('time change', function(new, old)
+    user_setup()
+end)
+
 -- -- The below commands are for controlling the Paldin buff Section.
 -- -- These functions check if buffs are active
 
@@ -435,10 +439,6 @@ end)
 --         windower.send_command("console_echo 'return'"..spell.target.status.." ")
 --     end
 -- end) 
-
-windower.register_event('time change', function(new, old)
-    user_setup()
-end)
 
 --runs the setup for the buff display
 user_setup()
