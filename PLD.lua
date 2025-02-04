@@ -1,4 +1,17 @@
 
+send_command('bind %q gs c Engage')
+send_command('bind %1 input /ws "Savage Blade" <t>')
+send_command('bind %2 input /ja Palisade <me>')
+send_command('bind %3 input /ja Restraint <me>')
+send_command('bind %4 input /ja Retaliation <me>')
+send_command('bind %5 input /ja "Blood Rage" <me>')
+send_command('bind %6 input /ja Berserk <me>')
+send_command('bind %7 input /ja Warcry <me>')
+--send_command('bind %8 input /ja Warcry <me>')
+send_command('bind %9 input /ja Provoke <t>')
+send_command('bind %o input /ja "High Jump" <t>')
+send_command('bind %p input /ja Jump <t>')
+
 function get_sets()
 
 	sets.idle = {} 					-- Leave this empty.
@@ -12,13 +25,13 @@ function get_sets()
 
     sets.idle.normal = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub='Blurred shield +1',
+        ----sub='Priwen',
         ammo="Thunder Sachet",
         head="Eyepatch",
-        body="Sulevia's platemail +1",
-        hands="Sulevia's gauntlets +1",
+        body="Sulevia's platemail +2",
+        hands="Sulevia's gauntlets +2",
         legs="Crimson Cuisses",
-        feet="Sulevia's leggings +1",
+        feet="Sulevia's leggings +2",
         neck="Twilight Torque",
         waist="Sailfi belt",
         left_ear="Brutal Earring",
@@ -28,8 +41,16 @@ function get_sets()
         back={ name="Rudianos's Mantle", augments={'HP+60','Enmity+10',}},
     }
 
+    sets.idle.crafting = {
+        head="Shaded Specs.",
+        body="Goldsmith's Apron",
+        neck="Backlash Torque",
+        waist="Goldsmith's Belt",
+        left_ring="Artificer's Ring",
+    }
+
     sets.precast.casting = {
-        feet={ name="Odyssean Greaves", augments={'Enmity+3','"Subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
+        feet={ name="Odyssean Greaves", augments={'Enmity+3','"--subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
         ammo="Incantor stone",
     }
     sets.midcast.utsusemi = {
@@ -38,7 +59,7 @@ function get_sets()
 
     sets.midcast.enmity = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub="Blurred shield +1",
+        ----sub="Priwen",
         ammo="Thunder Sachet",
         head="Bahamut's Mask",
         body="Valor Surcoat",
@@ -46,7 +67,7 @@ function get_sets()
         legs="Stanch Cuisses",
         feet="Dornen Schuhs",
         neck="Harmonia's Torque",
-        waist="Dash Sash",
+        waist="Creed Baudrier",
         left_ear="Hades Earring +1",
         right_ear="Hades Earring +1",
         left_ring="Odium Ring",
@@ -56,18 +77,18 @@ function get_sets()
 
     sets.midcast.haste = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub="Blurred shield +1",
+        --sub="Priwen",
         ammo="Thunder Sachet",
-        head="Gorney Morion +1",
-        body="Sulevia's Plate. +1",
+        head="Sulevia's Mask +1",
+        body="Sulevia's Plate. +2",
         hands="Sulev. Gauntlets +1",
-        legs="Flamma Dirs",
-        feet={ name="Odyssean Greaves", augments={'Enmity+3','"Subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
+        legs="Sulevia's Cuisses +2",
+        feet={ name="Odyssean Greaves", augments={'Enmity+3','"--subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
         neck="Twilight Torque",
-        waist="Sailfi Belt",
+        waist="Tempus Fugit",
         left_ear="Brutal Earring",
         right_ear="Upsurge Earring",
-        left_ring="Warp Ring",
+        left_ring="Flamma Ring",
         right_ring="Rajas Ring",
         back={ name="Rudianos's Mantle", augments={'HP+60','Enmity+10',}},
     }
@@ -75,15 +96,15 @@ function get_sets()
     --stack divine magic skill
     sets.midcast.enlight = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub="Blurred shield +1",
+        --sub="Priwen",
         ammo="Incantor Stone",
         head="Kahin Turban",
-        body="Sulevia's platemail +1",
-        hands="Sulevia's gauntlets +1",
-        legs="Sulevia's Cuisses +1",
-        feet={ name="Odyssean Greaves", augments={'Enmity+3','"Subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
+        body="Sulevia's platemail +2",
+        hands="Sulevia's gauntlets +2",
+        legs="Sulevia's Cuisses +2",
+        feet={ name="Odyssean Greaves", augments={'Enmity+3','" ubtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
         neck="Divine Torque",
-        waist="Sailfi belt",
+        waist="Tempus Fugit",
         left_ear="Brutal Earring",
         right_ear="Upsurge Earring",
         left_ring="Flamma Ring",
@@ -93,15 +114,15 @@ function get_sets()
 
     --spell interruption rate down and cure IV
     sets.midcast.si_down = {
-        sub="Blurred shield +1",
+        ----sub="Priwen",
         ammo="Thunder Sachet",
         head="Sulevia's Mask +1",
-        body="Sulevia's platemail +1",
-        hands="Sulevia's gauntlets +1",
-        legs="Sulevia's Cuisses +1",
-        feet={ name="Odyssean Greaves", augments={'Enmity+3','"Subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
+        body="Sulevia's platemail +2",
+        hands="Sulevia's gauntlets +2",
+        legs="Sulevia's Cuisses +2",
+        feet={ name="Odyssean Greaves", augments={'Enmity+3','"--subtle Blow"+2','Quadruple Attack +1','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
         neck="Twilight Torque",
-        waist="Sailfi belt",
+        waist="Tempus Fugit",
         left_ear="Brutal Earring",
         right_ear="Upsurge Earring",
         left_ring="Flamma Ring",
@@ -111,15 +132,15 @@ function get_sets()
 
     sets.melee.tp = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub="Blurred shield +1",
+        ----sub="Priwen",
         ammo="Thunder Sachet",
         head="Sulevia's Mask +1",
-        body="Sulevia's platemail +1",
-        hands="Sulevia's gauntlets +1",
-        legs="Sulevia's Cuisses +1",
-        feet="Sulevia's leggings +1",
+        body="Sulevia's platemail +2",
+        hands="Sulevia's gauntlets +2",
+        legs="Sulevia's Cuisses +2",
+        feet="Sulevia's leggings +2",
         neck="Twilight Torque",
-        waist="Sailfi belt",
+        waist="Tempus Fugit",
         left_ear="Brutal Earring",
         right_ear="Upsurge Earring",
         left_ring="Flamma Ring",
@@ -129,13 +150,13 @@ function get_sets()
 
     sets.ws.default = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        sub="Blurred shield +1",
+        ----sub="Priwen",
         ammo="Thunder Sachet",
         head="Sulevia's Mask +1",
-        body="Sulevia's platemail +1",
-        hands="Sulevia's gauntlets +1",
-        legs="Sulevia's Cuisses +1",
-        feet="Sulevia's leggings +1",
+        body="Sulevia's platemail +2",
+        hands="Sulevia's gauntlets +2",
+        legs="Sulevia's Cuisses +2",
+        feet="Sulevia's leggings +2",
         neck="Breeze Gorget",
         waist="Soil Belt",
         left_ear="Brutal Earring",
@@ -239,6 +260,7 @@ function buff_state(buff,alt_name,color,buff_type)
     else
         return "\\cs("..color..")"..buff
     end
+
 end
 
 -- function majesty_state()
@@ -345,7 +367,10 @@ function self_command(command)
             windower.add_to_chat(123,'Error. The first word is not toggle.')
         end
     else
-        windower.add_to_chat(123,'Error. Only 1 word command. Need 2 words')
+        if command == 'craft' then
+        equip(sets.idle.crafting)
+        -- windower.add_to_chat(123,'Error. Only 1 word command. Need 2 words')
+        end
     end
 end
 

@@ -1,4 +1,27 @@
 
+
+--send_command('bind %= input /map')
+
+send_command('wait 2;input /lockstyleset 3')
+send_command('bind %^- input /mount Raptor')
+send_command('bind %^= input /dismount')
+
+send_command('bind %= input /map')
+
+send_command('bind %e gs c Engage')
+send_command('bind %1 input /ws "Savage Blade" <t>')
+send_command('bind %2 input /ja Aggressor <me>')
+send_command('bind %3 input /ja Restraint <me>')
+send_command('bind %4 input /ja Retaliation <me>')
+send_command('bind %5 input /ja "Blood Rage" <me>')
+send_command('bind %6 input /ja Berserk <me>')
+send_command('bind %7 input /ja Warcry <me>')
+--send_command('bind %8 input /ja Warcry <me>')
+send_command('bind %9 input /ja Provoke <t>')
+send_command('bind %o input /ja "High Jump" <t>')
+send_command('bind %p input /ja Jump <t>')
+send_command('bind %l input /ws "Requiescat" <t>')
+
 function get_sets()
 
 	sets.idle = {} 					-- Leave this empty.
@@ -12,21 +35,43 @@ function get_sets()
 
     sets.idle.normal = {
         --main={ name="Nixxer", augments={'DMG:+17','STR+15','VIT+15',}},
-        main="Naegling",
-        sub="Thuellaic Ecu",
-        ammo="Thunder Sachet",
-        head="Flam. Zucchetto +1",
-        body="Sulevia's Plate. +1",
-        hands="Sulev. Gauntlets +1",
-        legs="Sulevi. Cuisses +1",
-        feet="Flam. Gambieras +1",
-        neck="Backlash Torque",
-        waist="Sailfi Belt",
+        ammo="Seething Bomblet +1",
+        head="Flam. Zucchetto +2",
+        body="Sulevia's Plate. +2",
+        hands="Sulev. Gauntlets +2",
+        legs="Sulev. Cuisses +2",
+        feet="Hermes' sandals",
+        neck="Warrior's bead necklace",
+        waist="Tempus Fugit",
         left_ear="Mache Earring",
         right_ear="Brutal Earring",
         left_ring="Flamma Ring",
-        right_ring="Rajas Ring",
+        right_ring="Petrov Ring",
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+19 Attack+19','Weapon skill damage +10%',}},
+    }
+
+    sets.idle.DT = {
+        ammo="Seething Bomblet +1",
+        head="Sulevia's Mask +1",
+        body="Sulevia's Plate. +2",
+        hands="Sulev. Gauntlets +2",
+        legs="Sulev. Cuisses +2",
+        feet="Sulev. Leggings +2",
+        neck="Diemer Gorget",
+        waist="Tempus Fugit",
+        left_ear="Mache Earring",
+        right_ear="Brutal Earring",
+        left_ring="Gelatinous Ring +1",
+        right_ring="Jelly Ring",
+        back="Aptitude Mantle",
+    }
+
+    sets.idle.crafting = {
+        head="Shaded Specs.",
+        body="Goldsmith's Apron",
+        neck="Warrior's bead necklace",
+        waist="Goldsmith's Belt",
+        left_ring="Artificer's Ring",
     }
 
     sets.precast.casting = {
@@ -54,44 +99,52 @@ function get_sets()
     }
 
     sets.melee.tp = {
-        main="Naegling",
-        sub="Thuellaic Ecu",
-        ammo="Thunder Sachet",
-        head="Flam. Zucchetto +1",
-        body="Sulevia's Plate. +1",
-        hands="Sulev. Gauntlets +1",
-        legs="Sulevi. Cuisses +1",
-        feet="Flam. Gambieras +1",
-        neck="Backlash Torque",
-        waist="Sailfi Belt",
+        
+        
+        ammo="Seething Bomblet +1",
+        head="Flam. Zucchetto +2",
+        body="Sulevia's Plate. +2",
+        hands="Sulev. Gauntlets +2",
+        legs="Sulev. Cuisses +2",
+        feet="Flam. Gambieras +2",
+        neck="Warrior's bead necklace",
+        waist="Tempus Fugit",
         left_ear="Mache Earring",
         right_ear="Brutal Earring",
         left_ring="Flamma Ring",
-        right_ring="Rajas Ring",
+        right_ring="Petrov Ring",
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+19 Attack+19','Weapon skill damage +10%',}},
     }
 
     sets.ws.default = {
-        main="Naegling",
-        sub="Thuellaic Ecu",
-        ammo="Thunder Sachet",
-        head="Flam. Zucchetto +1",
-        body="Sulevia's Plate. +1",
-        hands="Sulev. Gauntlets +1",
-        legs="Sulevi. Cuisses +1",
-        feet="Sulev. Leggings +1",
-        neck="Breeze Gorget",
-        waist="Soil Belt",
-        left_ear="Mache Earring",
-        right_ear="Brutal Earring",
-        left_ring="Flamma Ring",
-        right_ring="Rajas Ring",
+        
+        
+        ammo="Seething Bomblet +1",
+        head="Flam. Zucchetto +2",
+        body="Sulevia's Plate. +2",
+        hands="Sulev. Gauntlets +2",
+        legs="Sulev. Cuisses +2",
+        feet="Sulev. Leggings +2",
+        neck="Warrior's bead necklace",
+        waist="Grunfeld rope",
+        left_ear="Thrud Earring",
+        right_ear="Ishvara Earring",
+        left_ring="Rajas Ring",
+        right_ring="Petrov Ring",
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+19 Attack+19','Weapon skill damage +10%',}},
     }
 
 end
 
--- battle_mode = 'idle'
+battle_mode = 'idle'
+berserk_ready = ''
+restraint_ready = ''
+warcry_ready = ''
+blood_rage_ready = ''
+high_jump_ready = ''
+jump_ready = ''
+aggressor_ready = ''
+current_sub = player.sub_job
 
 -- --these variables are used for my buff display window, start greyed out
 -- enlight_active = "\\cs(130,130,130)Enlight"
@@ -100,37 +153,104 @@ end
 -- crusade_active = "\\cs(130,130,130)Crusade"
 -- majesty_active = "\\cs(130,130,130)Majesty"
 
--- --custom buff display window
--- gearswap_box = function()
---     display_mode = ''
---     if battle_mode == 'battle' then
---         display_mode = 'Battle Mode'
---     elseif battle_mode == 'idle' then
---         display_mode = 'Idle Mode'
---     else 
---         display_mode = 'Lazy Mode'
---     end
---     str = ''
---     --str = '           \\cs(130,130,130)PALADIN\\cr\n'
---     str = str..enlight_active..'\\cr\n'
---     str = str..reprisal_active..'\\cr\n'
---     str = str..phalanx_active..'\\cr\n'
---     str = str..crusade_active..'\\cr\n'
---     str = str..majesty_active..'\\cr\n'
---     str = str..display_mode..'\\cr\n'
---     return str
--- end
+local function convertSeconds(time)
+    local days = math.floor(time / 86400)
+    local hours = math.floor(math.fmod(time, 86400) / 3600)
+    local minutes = math.floor(math.fmod(time, 3600) / 60)
+    local seconds = math.floor(math.fmod(time, 60))
+    
+    local s = tostring(days > 0 and days .. (days == 1 and " day, " or " days, ") or "")
+    s = s .. tostring(hours > 0 and hours .. (hours == 1 and ":" or ":") or "")
+    s = s .. tostring(minutes > 0 and minutes .. (minutes == 1 and ":" or ":") or "")
+    s = s .. tostring(minutes < 1 and ':' or "")
+    s = s .. tostring(seconds < 10 and '0' or "")
+    s = s .. tostring(seconds == 0 and '0' or "")
+    s = s .. tostring(seconds > 0 and seconds or "")
+    
+    return string.gsub(s, ",[^,]*$", "")
+end
 
--- -- This is what determines the starting location of the buff window
--- -- Update the X, Y positions to change where this box defaults. Once loaded the box is dragable. 
--- gearswap_box_config = {pos={x=1108,y=989},padding=8,text={font='sans-serif',size=10,stroke={width=2,alpha=255},Fonts={'sans-serif'},},bg={alpha=0},flags={}}
--- gearswap_jobbox = texts.new(gearswap_box_config)
+-- local value = convertSeconds(122)
+-- print(value)
 
--- --shows the buff window
--- function user_setup()
--- 	gearswap_jobbox:text(gearswap_box())		
--- 	gearswap_jobbox:show()
--- end
+-- function disp_time(time)
+--     local minutes = math.floor(math.fmod(time,3600)/60)
+--     local seconds = math.floor(math.fmod(time,60))
+--     return format("%02d:%02d",minutes,seconds)
+--   end
+
+--custom buff display window
+gearswap_box = function()
+    display_mode = ''
+    if battle_mode == 'battle' then
+        display_mode = 'Battle Mode'
+    elseif battle_mode == 'idle' then
+        display_mode = 'Idle Mode'
+    else 
+        display_mode = 'Lazy Mode'
+    end
+    if windower.ffxi.get_ability_recasts()[1] > 0 then
+        berserk_ready = '\\cs(130,130,130)Berserk  '..convertSeconds(windower.ffxi.get_ability_recasts()[1])
+    else
+        berserk_ready = "\\cs(255,0,0)Berserk  "
+    end
+    if windower.ffxi.get_ability_recasts()[4] > 0 then
+        aggressor_ready = '\\cs(130,130,130)  Aggressor  '..convertSeconds(windower.ffxi.get_ability_recasts()[4])
+    else
+        aggressor_ready = "\\cs(255,200,200)  Aggressor"
+    end
+    if windower.ffxi.get_ability_recasts()[9] > 0 then
+        restraint_ready = '\\cs(130,130,130)Restraint  '..convertSeconds(windower.ffxi.get_ability_recasts()[9])
+    else
+        restraint_ready = "\\cs(255,130,0)Restraint"
+    end
+    if windower.ffxi.get_ability_recasts()[2] > 0 then
+        warcry_ready = '\\cs(130,130,130)Warcry  '..convertSeconds(windower.ffxi.get_ability_recasts()[2])
+    else
+        warcry_ready = "\\cs(255,130,130)Warcry  "
+    end
+    if windower.ffxi.get_ability_recasts()[11] > 0 then
+        blood_rage_ready = '\\cs(130,130,130)  Blood Rage  '..convertSeconds(windower.ffxi.get_ability_recasts()[11])
+    else
+        blood_rage_ready = "\\cs(255,0,255)  Blood Rage  "
+    end
+    if current_sub == 'DRG' then
+        if windower.ffxi.get_ability_recasts()[159] > 0 then
+            high_jump_ready = '\\cs(130,130,130)High Jump  '..convertSeconds(windower.ffxi.get_ability_recasts()[159])
+        else
+            high_jump_ready = "\\cs(0,255,200)High Jump  "
+        end
+        if windower.ffxi.get_ability_recasts()[158] > 0 then
+            jump_ready = '\\cs(130,130,130)  Jump  '..convertSeconds(windower.ffxi.get_ability_recasts()[158])
+        else
+            jump_ready = "\\cs(0,255,0)  Jump"
+        end
+    end
+    str = ''
+    str = '           \\cs(130,130,130)WAR / '..current_sub..'\\cr\n'
+    str = str..berserk_ready..'\\cr'
+    str = str..aggressor_ready..'\\cr\n'
+    str = str..restraint_ready..'\\cr\n'
+    str = str..warcry_ready..'\\cr'
+    str = str..blood_rage_ready..'\\cr\n'
+    if current_sub == 'DRG' then
+        str = str..high_jump_ready..'\\cr'
+        str = str..jump_ready..'\\cr\n'
+    end
+    str = str..display_mode..'\\cr\n'
+    return str
+end
+
+-- This is what determines the starting location of the buff window
+-- Update the X, Y positions to change where this box defaults. Once loaded the box is dragable. 
+gearswap_box_config = {pos={x=1108,y=989},padding=8,text={font='sans-serif',size=10,stroke={width=2,alpha=255},Fonts={'sans-serif'},},bg={alpha=0},flags={}}
+gearswap_jobbox = texts.new(gearswap_box_config)
+
+--shows the buff window
+function user_setup()
+	gearswap_jobbox:text(gearswap_box())		
+	gearswap_jobbox:show()
+end
 
 -- -- The below commands are for controlling the Paldin buff Section.
 -- -- These functions check if buffs are active
@@ -252,8 +372,10 @@ end)
 function status_change(new,old)
     if player.status=='Engaged' then
         equip(sets.melee.tp) 
+        --send_command('input /lockstyle on')
     else
         equip(sets.idle.normal) 
+        --send_command('input /lockstyle off')
     end
 end
 
@@ -281,9 +403,42 @@ function self_command(command)
             windower.add_to_chat(123,'Error. The first word is not toggle.')
         end
     else
-        windower.add_to_chat(123,'Error. Only 1 word command. Need 2 words')
+        if command == 'craft' then
+            equip(sets.idle.crafting)
+        --windower.add_to_chat(123,'Error. Only 1 word command. Need 2 words')
+        elseif command == 'Engage' then
+            send_command('input /targetbnpc')
+            send_command('input /a')
+            send_command('input //sb stat acc Vigrid')
+        end
     end
 end
 
+-- windower.register_event('hp change', function(new, old)
+--     if player.hp < 1500  then
+--         equip(sets.idle.DT)
+--     end
+-- end) 
+
+windower.register_event('tp change', function(new, old)
+    if battle_mode == 'lazy' then
+
+        if player.tp >= 1000  then
+            send_command('input /ws \'Savage Blade\' <t>')
+        end
+    end
+    user_setup()
+end) 
+
+-- windower.register_event('target change', function(new, old)
+--     if battle_mode == 'lazy' then
+--         windower.send_command("console_echo 'return'"..spell.target.status.." ")
+--     end
+-- end) 
+
+windower.register_event('time change', function(new, old)
+    user_setup()
+end)
+
 --runs the setup for the buff display
---user_setup()
+user_setup()
