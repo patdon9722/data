@@ -140,7 +140,7 @@ function get_sets()
 
 end
 
-battle_mode = 'idle'
+lazy_mode = ''
 berserk_ready = ''
 restraint_ready = ''
 warcry_ready = ''
@@ -149,23 +149,10 @@ high_jump_ready = ''
 jump_ready = ''
 aggressor_ready = ''
 current_sub = player.sub_job
-
--- -- function disp_time(time)
--- --     local minutes = math.floor(math.fmod(time,3600)/60)
--- --     local seconds = math.floor(math.fmod(time,60))
--- --     return format("%02d:%02d",minutes,seconds)
--- --   end
+dt_mode = ''
 
 --custom buff display window
 gearswap_box = function()
-    display_mode = ''
-    if battle_mode == 'battle' then
-        display_mode = 'Battle Mode'
-    elseif battle_mode == 'idle' then
-        display_mode = 'Idle Mode'
-    else 
-        display_mode = 'Lazy Mode'
-    end
 
     berserk_ready = ability_timer(1,'main')
     --meditate_ready = ability_timer(134,'SAM')  
@@ -188,7 +175,7 @@ gearswap_box = function()
         str = str..high_jump_ready..'\\cr'
         str = str..jump_ready..'\\cr\n'
     end
-    str = str..display_mode..'\\cr\n'
+    str = str..lazy_mode..'  '..dt_mode..\\cr\n'
     return str
 end
 
@@ -240,12 +227,6 @@ function aftercast(spell)
     end
 end
 
--- function filtered_action(spell)
---     if spell.name:match('Majesty') then
---         majesty_state()
---     end
--- end
-
 function idle()
     equip(sets.idle.normal)
 end
@@ -270,17 +251,16 @@ end
 
 function self_command(command)
     if command == 'mode' then
-        if battle_mode == 'idle'then           -- if battle_mode is idle
-            battle_mode = 'lazy'       -- then we set it to battle
+        if lazy_mode == '' then           -- if lazy_mode is idle
+            lazy_mode = 'Lazy Mode ON'       -- then we set it to battle
             user_setup()
-        elseif battle_mode == 'lazy' then          
-            battle_mode = 'idle'        
+        elseif lazy_mode == 'Lazy Mode ON' then          
+            lazy_mode = ''        
             user_setup()
         end
     else
         if command == 'craft' then
             equip(sets.idle.crafting)
-        --windower.add_to_chat(123,'Error. Only 1 word command. Need 2 words')
         elseif command == 'Engage' then
             send_command('input /targetbnpc')
             send_command('input /a')
@@ -296,7 +276,7 @@ windower.register_event('hp change', function(new, old)
 end) 
 
 -- windower.register_event('tp change', function(new, old)
---     if battle_mode == 'lazy' then
+--     if lazy_mode == 'lazy' then
 
 --         if player.tp >= 1000  then
 --             send_command('input /ws \'Savage Blade\' <t>')
@@ -306,7 +286,7 @@ end)
 -- end) 
 
 windower.register_event('time change', function(new, old)
-    if battle_mode == 'lazy' then
+    if lazy_mode == 'Lazy Mode ON' then
         auto_ability('Jump','ja','t',false,158)
         auto_ability('High Jump','ja','t',false,159)
 
