@@ -1,6 +1,5 @@
 
-ability_recasts_file = require('ability_recasts')
-require('utility')
+
 --send_command('bind %= input /map')
 
 send_command('wait 2;input /lockstyleset 3')
@@ -17,14 +16,11 @@ send_command('bind %4 input /ja Retaliation <me>')
 send_command('bind %5 input /ja "Blood Rage" <me>')
 send_command('bind %6 input /ja Berserk <me>')
 send_command('bind %7 input /ja Warcry <me>')
-send_command('bind %8 gs c mode')
+--send_command('bind %8 input /ja Warcry <me>')
 send_command('bind %9 input /ja Provoke <t>')
 send_command('bind %o input /ja "High Jump" <t>')
 send_command('bind %p input /ja Jump <t>')
 send_command('bind %l input /ws "Requiescat" <t>')
-send_command('bind %b input /item "Dimensional Ring (Dem)" <me>')
-send_command('bind %g gs c guard')
-
 
 function get_sets()
 
@@ -150,11 +146,38 @@ jump_ready = ''
 aggressor_ready = ''
 current_sub = player.sub_job
 
--- -- function disp_time(time)
--- --     local minutes = math.floor(math.fmod(time,3600)/60)
--- --     local seconds = math.floor(math.fmod(time,60))
--- --     return format("%02d:%02d",minutes,seconds)
--- --   end
+-- --these variables are used for my buff display window, start greyed out
+-- enlight_active = "\\cs(130,130,130)Enlight"
+-- reprisal_active = "\\cs(130,130,130)Reprisal"
+-- phalanx_active = "\\cs(130,130,130)Phalanx"
+-- crusade_active = "\\cs(130,130,130)Crusade"
+-- majesty_active = "\\cs(130,130,130)Majesty"
+
+local function convertSeconds(time)
+    local days = math.floor(time / 86400)
+    local hours = math.floor(math.fmod(time, 86400) / 3600)
+    local minutes = math.floor(math.fmod(time, 3600) / 60)
+    local seconds = math.floor(math.fmod(time, 60))
+    
+    local s = tostring(days > 0 and days .. (days == 1 and " day, " or " days, ") or "")
+    s = s .. tostring(hours > 0 and hours .. (hours == 1 and ":" or ":") or "")
+    s = s .. tostring(minutes > 0 and minutes .. (minutes == 1 and ":" or ":") or "")
+    s = s .. tostring(minutes < 1 and ':' or "")
+    s = s .. tostring(seconds < 10 and '0' or "")
+    s = s .. tostring(seconds == 0 and '0' or "")
+    s = s .. tostring(seconds > 0 and seconds or "")
+    
+    return string.gsub(s, ",[^,]*$", "")
+end
+
+-- local value = convertSeconds(122)
+-- print(value)
+
+-- function disp_time(time)
+--     local minutes = math.floor(math.fmod(time,3600)/60)
+--     local seconds = math.floor(math.fmod(time,60))
+--     return format("%02d:%02d",minutes,seconds)
+--   end
 
 --custom buff display window
 gearswap_box = function()
@@ -166,17 +189,43 @@ gearswap_box = function()
     else 
         display_mode = 'Lazy Mode'
     end
-
-    berserk_ready = ability_timer(1,'main')
-    --meditate_ready = ability_timer(134,'SAM')  
-    aggressor_ready = ability_timer(4, 'main')
-    restraint_ready = ability_timer(9, 'main')
-    warcry_ready = ability_timer(2, 'main')
-    blood_rage_ready = ability_timer(11, 'main')
-    warcry_ready = ability_timer(2, 'main')
-    high_jump_ready = ability_timer(159, 'DRG')
-    jump_ready = ability_timer(158, 'DRG')
-
+    if windower.ffxi.get_ability_recasts()[1] > 0 then
+        berserk_ready = '\\cs(130,130,130)Berserk  '..convertSeconds(windower.ffxi.get_ability_recasts()[1])
+    else
+        berserk_ready = "\\cs(255,0,0)Berserk  "
+    end
+    if windower.ffxi.get_ability_recasts()[4] > 0 then
+        aggressor_ready = '\\cs(130,130,130)  Aggressor  '..convertSeconds(windower.ffxi.get_ability_recasts()[4])
+    else
+        aggressor_ready = "\\cs(255,200,200)  Aggressor"
+    end
+    if windower.ffxi.get_ability_recasts()[9] > 0 then
+        restraint_ready = '\\cs(130,130,130)Restraint  '..convertSeconds(windower.ffxi.get_ability_recasts()[9])
+    else
+        restraint_ready = "\\cs(255,130,0)Restraint"
+    end
+    if windower.ffxi.get_ability_recasts()[2] > 0 then
+        warcry_ready = '\\cs(130,130,130)Warcry  '..convertSeconds(windower.ffxi.get_ability_recasts()[2])
+    else
+        warcry_ready = "\\cs(255,130,130)Warcry  "
+    end
+    if windower.ffxi.get_ability_recasts()[11] > 0 then
+        blood_rage_ready = '\\cs(130,130,130)  Blood Rage  '..convertSeconds(windower.ffxi.get_ability_recasts()[11])
+    else
+        blood_rage_ready = "\\cs(255,0,255)  Blood Rage  "
+    end
+    if current_sub == 'DRG' then
+        if windower.ffxi.get_ability_recasts()[159] > 0 then
+            high_jump_ready = '\\cs(130,130,130)High Jump  '..convertSeconds(windower.ffxi.get_ability_recasts()[159])
+        else
+            high_jump_ready = "\\cs(0,255,200)High Jump  "
+        end
+        if windower.ffxi.get_ability_recasts()[158] > 0 then
+            jump_ready = '\\cs(130,130,130)  Jump  '..convertSeconds(windower.ffxi.get_ability_recasts()[158])
+        else
+            jump_ready = "\\cs(0,255,0)  Jump"
+        end
+    end
     str = ''
     str = '           \\cs(130,130,130)WAR / '..current_sub..'\\cr\n'
     str = str..berserk_ready..'\\cr'
@@ -203,6 +252,74 @@ function user_setup()
 	gearswap_jobbox:show()
 end
 
+-- windower.register_event('time change', function(new, old)
+--     user_setup()
+-- end)
+
+-- -- The below commands are for controlling the Paldin buff Section.
+-- -- These functions check if buffs are active
+
+-- function reprisal_state()
+--     if not (buffactive['Reprisal']) then
+--         reprisal_active = "\\cs(130,130,130)Reprisal"
+--     else
+--         reprisal_active = "\\cs(0,128,255)Reprisal"
+--     end
+-- end
+
+-- function crusade_state()
+--     if not (buffactive['Enmity Boost']) then
+--         crusade_active = "\\cs(130,130,130)Crusade"
+--         if battle_mode == 'battle' then
+--             if player.status=='Engaged'  then
+--             else
+--                 send_command('input /ma Crusade <me>')
+--             end
+--         end
+--         if battle_mode == 'lazy' then
+--             send_command('input /ma Crusade <me>')
+--         end
+--     else
+--         crusade_active = "\\cs(255,0,0)Crusade"
+--     end
+-- end
+
+--type = ma or ja, etc
+-- function buff_state(buff,alt_name,color,buff_type)
+--     --windower.send_command("console_echo 'return'") --sends echo to console, use to debug
+--     if not (buffactive[alt_name]) then
+--         if buff_type == 'ma' then
+--             if battle_mode == 'battle' then
+--                 if player.status=='Engaged'  then
+--                 else
+--                     send_command('input /ma '..buff..' <me>') -- need spaces after ma and before <me>
+--                 end
+--             end
+--             if battle_mode == 'lazy' then
+--                 send_command('input /ma '..buff..' <me>')
+--             end
+--         else --job ability
+--             if battle_mode == 'battle' or battle_mode == 'lazy' then
+--                 send_command('input /ja '..buff..' <me>')
+--             end
+--         end
+--         return "\\cs(130,130,130)"..buff --return grey text
+--     else
+--         return "\\cs("..color..")"..buff
+--     end
+-- end
+
+-- function majesty_state()
+--     if not (buffactive['Majesty']) then
+--         if battle_mode == 'battle' then
+--             send_command('input /ja Majesty <me>')
+--         end
+--         if battle_mode == 'lazy' then
+--             send_command('input /ja Majesty <me>')
+--         end
+--     end
+--     majesty_active = "\\cs(128,0,128)Majesty"
+-- end
 
 --activates on buff gain or loss, checks the state of each, updates window 
 function buff_change(buff, gain)
@@ -266,16 +383,28 @@ function status_change(new,old)
     end
 end
 
-
-
 function self_command(command)
-    if command == 'mode' then
-        if battle_mode == 'idle'then           -- if battle_mode is idle
-            battle_mode = 'lazy'       -- then we set it to battle
-            user_setup()
-        elseif battle_mode == 'lazy' then          
-            battle_mode = 'idle'        
-            user_setup()
+    local commandArgs = command                 -- First we copy the content of command inside a new variable for our use. 
+    if #commandArgs:split(' ') >= 2 then             -- We check if there is 2 or more words in the commandArgs.
+            commandArgs = T(commandArgs:split(' '))         -- If there is indeed 2 or more words, we split each words into a different entry, so commandArgs[1] and commandArgs[2] if there was 2 words.
+         
+        if commandArgs[1]:lower() == "toggle" then      -- the :lower() part makes sure that capital letters are now lowercase, so "Toggle" and "toggle" are both fine. 
+            if commandArgs[2]:lower() == "battle_mode" then   -- We passed the first word test, now we check for the 2nd word.
+                if battle_mode == 'idle'then           -- if battle_mode is idle
+                    battle_mode = 'battle'       -- then we set it to battle
+                    user_setup()
+                elseif battle_mode == 'battle' then          
+                    battle_mode = 'lazy'        
+                    user_setup()
+                else
+                    battle_mode = 'idle'
+                    user_setup()
+                end
+            else
+                windower.add_to_chat(123,'Error. 2nd word unkown, don\'t know what to toggle.')
+            end
+        else
+            windower.add_to_chat(123,'Error. The first word is not toggle.')
         end
     else
         if command == 'craft' then
@@ -289,45 +418,27 @@ function self_command(command)
     end
 end
 
-windower.register_event('hp change', function(new, old)
-    if player.hp < 1500  then
-        equip(sets.idle.DT)
-    end
-end) 
-
--- windower.register_event('tp change', function(new, old)
---     if battle_mode == 'lazy' then
-
---         if player.tp >= 1000  then
---             send_command('input /ws \'Savage Blade\' <t>')
---         end
+-- windower.register_event('hp change', function(new, old)
+--     if player.hp < 1500  then
+--         equip(sets.idle.DT)
 --     end
---     --user_setup()
 -- end) 
 
-windower.register_event('time change', function(new, old)
+windower.register_event('tp change', function(new, old)
     if battle_mode == 'lazy' then
-        auto_ability('Jump','ja','t',false,158)
-        auto_ability('High Jump','ja','t',false,159)
 
-        if player.status == 'Engaged' then
-            auto_ability('Restraint','ja','me',false,9)
-            auto_ability('Berserk','ja','me',false,1)
-            auto_ability('Aggressor','ja','me',false,4)
-
-            if not (buffactive['Warcry']) then
-                auto_ability('Blood Rage','ja','me',false,11)
-            end
-            if not (buffactive['Blood Rage']) then
-                auto_ability('Warcry','ja','me',false,2)
-            end
+        if player.tp >= 1000  then
+            send_command('input /ws \'Savage Blade\' <t>')
         end
     end
+    user_setup()
 end) 
 
-windower.register_event('prerender', function()
-    user_setup()
-end)
+-- windower.register_event('target change', function(new, old)
+--     if battle_mode == 'lazy' then
+--         windower.send_command("console_echo 'return'"..spell.target.status.." ")
+--     end
+-- end) 
 
 --runs the setup for the buff display
 user_setup()
