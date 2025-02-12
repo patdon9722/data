@@ -10,6 +10,7 @@ send_command('bind %^= input /dismount')
 send_command('bind %= input /map')
 
 send_command('bind %e gs c Engage')
+send_command('bind %^0 gs c dt_mode')
 send_command('bind %1 input /ws "Savage Blade" <t>')
 send_command('bind %2 input /ja Aggressor <me>')
 send_command('bind %3 input /ja Restraint <me>')
@@ -18,6 +19,7 @@ send_command('bind %5 input /ja "Blood Rage" <me>')
 send_command('bind %6 input /ja Berserk <me>')
 send_command('bind %7 input /ja Warcry <me>')
 send_command('bind %8 gs c mode')
+send_command('bind %^8 gs c ws_mode')
 send_command('bind %9 input /ja Provoke <t>')
 send_command('bind %o input /ja "High Jump" <t>')
 send_command('bind %p input /ja Jump <t>')
@@ -149,6 +151,7 @@ high_jump_ready = ''
 jump_ready = ''
 aggressor_ready = ''
 current_sub = player.sub_job
+ws_mode = ''
 dt_mode = ''
 
 --custom buff display window
@@ -175,7 +178,7 @@ gearswap_box = function()
         str = str..high_jump_ready..'\\cr'
         str = str..jump_ready..'\\cr\n'
     end
-    str = str..lazy_mode..'  '..dt_mode..\\cr\n'
+    str = str..lazy_mode..'  '..ws_mode..'  '..dt_mode..'\\cr\n'
     return str
 end
 
@@ -221,7 +224,11 @@ end
 
 function aftercast(spell)
     if player.status=='Engaged' then
-        equip(sets.melee.tp) 
+        if dt_mode == 'DT On'  then
+            equip(sets.idle.DT)
+        else
+            equip(sets.melee.tp) 
+        end
     else
         equip(sets.idle.normal) 
     end
@@ -239,11 +246,13 @@ end)
 --for swapping to idle after combat, or tp gear for combat
 function status_change(new,old)
     if player.status=='Engaged' then
-        equip(sets.melee.tp) 
-        --send_command('input /lockstyle on')
+        if dt_mode == 'DT On'  then
+            equip(sets.idle.DT)
+        else
+            equip(sets.melee.tp) 
+        end
     else
         equip(sets.idle.normal) 
-        --send_command('input /lockstyle off')
     end
 end
 
@@ -252,20 +261,34 @@ end
 function self_command(command)
     if command == 'mode' then
         if lazy_mode == '' then           -- if lazy_mode is idle
-            lazy_mode = 'Lazy Mode ON'       -- then we set it to battle
+            lazy_mode = 'Lazy Mode On'       -- then we set it to battle
             user_setup()
-        elseif lazy_mode == 'Lazy Mode ON' then          
+        elseif lazy_mode == 'Lazy Mode On' then          
             lazy_mode = ''        
             user_setup()
         end
-    else
-        if command == 'craft' then
-            equip(sets.idle.crafting)
-        elseif command == 'Engage' then
-            send_command('input /targetbnpc')
-            send_command('input /a')
-            send_command('input //sb stat acc Vigrid')
+    elseif command == 'ws_mode' then
+        if ws_mode == '' then      
+            ws_mode = 'WS On'      
+            user_setup()
+        elseif ws_mode == 'WS On' then          
+            ws_mode = ''        
+            user_setup()
         end
+    elseif command == 'dt_mode' then
+        if dt_mode == '' then      
+            dt_mode = 'DT On'      
+            user_setup()
+        elseif dt_mode == 'DT On' then          
+            dt_mode = ''        
+            user_setup()
+        end
+    elseif command == 'craft' then
+        equip(sets.idle.crafting)
+    elseif command == 'Engage' then
+        send_command('input /targetbnpc')
+        send_command('input /a')
+        send_command('input //sb stat acc Vigrid')
     end
 end
 
@@ -275,18 +298,18 @@ windower.register_event('hp change', function(new, old)
     end
 end) 
 
--- windower.register_event('tp change', function(new, old)
---     if lazy_mode == 'lazy' then
+windower.register_event('tp change', function(new, old)
+    if ws_mode == 'WS On' then
 
---         if player.tp >= 1000  then
---             send_command('input /ws \'Savage Blade\' <t>')
---         end
---     end
---     --user_setup()
--- end) 
+        if player.tp >= 1000  then
+            send_command('input /ws \'Savage Blade\' <t>')
+        end
+    end
+    --user_setup()
+end) 
 
 windower.register_event('time change', function(new, old)
-    if lazy_mode == 'Lazy Mode ON' then
+    if lazy_mode == 'Lazy Mode On' then
         auto_ability('Jump','ja','t',false,158)
         auto_ability('High Jump','ja','t',false,159)
 
