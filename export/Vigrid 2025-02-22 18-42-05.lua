@@ -1,0 +1,17 @@
+sets.exported={
+    main="Chango",
+    sub="Duplus Grip",
+    ammo="Seeth. Bomblet +1",
+    head="Valorous Mask",
+    body="Flamma Korazin +2",
+    hands="Flam. Manopolas +2",
+    legs="Pumm. Cuisses +2",
+    feet="Hermes' Sandals",
+    neck="Warrior's Beads",
+    waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+    left_ear="Mache Earring",
+    right_ear="Brutal Earring",
+    left_ring="Flamma Ring",
+    right_ring="Petrov Ring",
+    back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10',}},
+}

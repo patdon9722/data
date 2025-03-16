@@ -393,5 +393,9 @@ windower.register_event('tp change', function(new, old)
     end
 end)
 
+-- windower.register_event('time change', function(new, old)
+--     user_setup()
+-- end)
+
 -- --runs the setup for the buff display
 -- user_setup()

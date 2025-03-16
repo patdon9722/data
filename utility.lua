@@ -24,7 +24,7 @@ function ability_timer(id,sub)
         elseif windower.ffxi.get_ability_recasts()[id] > 0 then
             return '\\cs(130,130,130)'..'  '..ability_recasts_file[id].en..'  '..convertSeconds(windower.ffxi.get_ability_recasts()[id])
         else
-            return "\\cs(0,255,0)"..'  '..ability_recasts_file[id].en..'  '
+            return "\\cs(0,130,255)"..'  '..ability_recasts_file[id].en..'  '
         end
     end
 end   

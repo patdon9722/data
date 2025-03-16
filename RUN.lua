@@ -41,13 +41,13 @@ send_command('bind %o input /ja "Swipe" <t>')
 --     sets.idle.normal = {
 --     }
 
-    sets.idle.crafting = {
-        head="Shaded Specs.",
-        body="Goldsmith's Apron",
-        neck="Backlash Tque",
-        waist="Goldsmith's Belt",
-        left_ring="Artificer's Ring",
-    }
+    -- sets.idle.crafting = {
+    --     head="Shaded Specs.",
+    --     body="Goldsmith's Apron",
+    --     neck="Backlash Tque",
+    --     waist="Goldsmith's Belt",
+    --     left_ring="Artificer's Ring",
+    -- }
 
 --     sets.precast.casting = {
 --     }
@@ -298,7 +298,7 @@ end
 
 windower.register_event('tp change', function(new, old)
     if player.tp >= 1000  then
-        send_command('input /ws \'Herculean Slash\' <t>')
+        send_command('input /ws \'Ground Strike\' <t>')
     -- else
     --     send_command('input /ma \'Sprout Smack\' <t>')
     end

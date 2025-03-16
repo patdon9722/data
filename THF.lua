@@ -13,13 +13,13 @@ function get_sets()
 
     sets.idle.normal = {
         ammo="Seething Bomblet +1",
-        head="Meghanada Visor +1",
+        head="Mummu bonnet +1",
         body={ name="Herculean Vest", augments={'Accuracy+7','Crit.hit rate+3','Quadruple Attack +1','Accuracy+11 Attack+11',}},
         hands={ name="Plun. Armlets +1", augments={'Enhances "Perfect Dodge" effect',}},
         legs="Mummu Kecks +1",
         feet="Jute Boots +1",
         neck="Backlash Torque",
-        waist="Windbuffet Belt +1",
+        waist="Sailfi Belt +1",
         left_ear="Suppanomimi",
         right_ear="Brutal Earring",
         left_ring="Petrov Ring",
@@ -42,12 +42,8 @@ function get_sets()
 
     }
 
-    --stack divine magic skill
-    sets.midcast.enlight = {
 
-    }
-
-    sets.melee.tp = {
+    sets.melee.th = {
         ammo="Seething Bomblet +1",
         head="Meghanada Visor +1",
         body={ name="Herculean Vest", augments={'Accuracy+7','Crit.hit rate+3','Quadruple Attack +1','Accuracy+11 Attack+11',}},
@@ -55,7 +51,23 @@ function get_sets()
         legs="Mummu Kecks +1",
         feet={ name="Herculean Boots", augments={'Mag. Acc.+1','Pet: STR+1','"Treasure Hunter"+1','Accuracy+10 Attack+10','Mag. Acc.+17 "Mag.Atk.Bns."+17',}},
         neck="Backlash Torque",
-        waist="Windbuffet Belt +1",
+        waist="Sailfi Belt +1",
+        left_ear="Suppanomimi",
+        right_ear="Brutal Earring",
+        left_ring="Petrov Ring",
+        right_ring="Rajas Ring",
+        back="Atheling Mantle",
+    }
+
+    sets.melee.tp = {
+        ammo="Seething Bomblet +1",
+        head="Mummu bonnet +1",
+        body={ name="Herculean Vest", augments={'Accuracy+7','Crit.hit rate+3','Quadruple Attack +1','Accuracy+11 Attack+11',}},
+        hands="Mummu Wrists +1",
+        legs="Mummu Kecks +1",
+        feet="Mummu gamashes +1",
+        neck="Backlash Torque",
+        waist="Sailfi Belt +1",
         left_ear="Suppanomimi",
         right_ear="Brutal Earring",
         left_ring="Petrov Ring",
@@ -255,7 +267,7 @@ end
 
 function aftercast(spell)
     if player.status=='Engaged' then
-        equip(sets.melee.tp) 
+        equip(sets.melee.th) 
     else
         equip(sets.idle.normal) 
     end
@@ -340,6 +352,7 @@ send_command('bind %o input /ja "Sneak Attack" <me>')
 send_command('bind %p input /ja "Trick Attack" <me>')
 send_command('bind %l input /ws "Savage Blade" <t>')
 send_command('bind %k input /ja Flee <me>')
+send_command('bind %b input /item "Dimensional Ring (Dem)" <me>')
 
 
 function self_command(command)
@@ -350,6 +363,8 @@ function self_command(command)
     end
     if command == 'Mount' then
         send_command('input /mount Raptor')
+    elseif command == 'craft' then
+        equip(sets.idle.crafting)
     end
 end
 
